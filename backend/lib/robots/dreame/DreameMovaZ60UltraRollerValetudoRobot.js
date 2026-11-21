@@ -397,7 +397,8 @@ class DreameMovaZ60UltraRollerValetudoRobot extends DreameGen4ValetudoRobot {
 
         return [
             "mova.vacuum.r9540h",
-            "mova.vacuum.r9540a"
+            "mova.vacuum.r9540a",
+            "mova.vacuum.r9540k"
         ].includes(deviceConf?.model);
     }
 }
