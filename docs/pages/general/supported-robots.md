@@ -873,19 +873,42 @@ Rooting is relatively easy. Usage of [the Dreame Breakout PCB](https://github.co
 Note that these newer robots are less forgiving than older ones. If you mess up during the rooting procedure, recovery requires pulling the battery,
 which is an action that requires destruction of warranty seals.
 
+<br/>
 
 If post-root the Wi-Fi doesn't want to come up even after pressing and holding the two buttons + the bot speaking to you,
-the system might be in a weird state due to our rooting.
+the system might be in a weird state due to our rooting. In that case, stuff might get slightly more complicated.
 
-It is not yet clear what exactly is going on, but one thing you can try to fix this is to re-enter fastboot, but, instead of flashing, reboot via the helper right away.
-That seems to help in many cases.
+To fix that state, re-enter fastboot, but, instead of flashing anything, reboot via the helper right away.
 
-As this has now happened for 6+ times:<br/>
-Please refrain from trying to """"""""""help"""""""""" with this using LLMs. They all come up with the "AXP2202 DCDC4 power rail" thing. No, that is not the root cause.
-It cannot be. It is the same device tree as stock. You'd also come to that conclusion if you thought about the LLM output for ca 7 seconds.
+Spawning the WiFi AP should now work. Now, turn off the robot and turn it back on. If spawning the WiFi AP still works, you're good.
+If not, then expand the following spoiler.
 
-You're no child anymore, meaning that it's not the attempt that counts. There are no participation trophies.<br/>
-No one is "happy that you tried". If you're looking for that experience, I guess some escorts have the psychological strength to offer that service..for money.
+<details>
+<summary>Help, where's my wlan0</summary>
+
+If you're here, that probably means that the firmware installed when rooting was rather old.
+Dreame shuffled some stuff around between components of the boot chain, meaning that we can end up in a mismatch, where power to the WiFi module is never enabled.
+
+We thus now need to update stuff the normal rooting procedure doesn't touch.
+
+**Note:**<br/>
+Don't be an idiot here. This can brick your robot.<br/>
+It is also specific for the robot the FEL package was made for. Do not do this on any other bot.
+
+
+You've likely wondered why the FEL package you've downloaded for the initial rooting procedure contained a file named `.IGNOREME_toc0.bin`.
+
+As a first step, rename it (`mv .IGNOREME_toc0.bin toc0.bin`), as now is the time to stop ignoring it.
+Then, do the same fastboot instant reboot dance again, so that you can spawn the WiFi AP.
+
+Connect to the AP, then copy the file to the robot's `/tmp` dir - e.g. using `scp -O` or the [valetudo-helper-httpbridge](https://github.com/Hypfer/valetudo-helper-httpbridge).
+Quintuple-check that you're not doing something dumb, that checksums match, and that you're generally lucid and not half-assing any of this.
+
+Then, run `ota-burnboot0 /tmp/toc0.bin`.
+If nothing complained about anything, run `reboot`.
+
+This should permanently fix the root cause of the issue.
+</details>
 
 
 #### Details
@@ -920,18 +943,42 @@ Rooting is relatively easy. Usage of [the Dreame Breakout PCB](https://github.co
 Note that these newer robots are less forgiving than older ones. If you mess up during the rooting procedure, recovery requires pulling the battery,
 which is an action that requires destruction of warranty seals.
 
+<br/>
+
 If post-root the Wi-Fi doesn't want to come up even after pressing and holding the two buttons + the bot speaking to you,
-the system might be in a weird state due to our rooting.
+the system might be in a weird state due to our rooting. In that case, stuff might get slightly more complicated.
 
-It is not yet clear what exactly is going on, but one thing you can try to fix this is to re-enter fastboot, but, instead of flashing, reboot via the helper right away.
-That seems to help in many cases.
+To fix that state, re-enter fastboot, but, instead of flashing anything, reboot via the helper right away.
 
-As this has now happened for 6+ times:<br/>
-Please refrain from trying to """"""""""help"""""""""" with this using LLMs. They all come up with the "AXP2202 DCDC4 power rail" thing. No, that is not the root cause.
-It cannot be. It is the same device tree as stock. You'd also come to that conclusion if you thought about the LLM output for ca 7 seconds.
+Spawning the WiFi AP should now work. Now, turn off the robot and turn it back on. If spawning the WiFi AP still works, you're good.
+If not, then expand the following spoiler.
 
-You're no child anymore, meaning that it's not the attempt that counts. There are no participation trophies.<br/>
-No one is "happy that you tried". If you're looking for that experience, I guess some escorts have the psychological strength to offer that service..for money.
+<details>
+<summary>Help, where's my wlan0</summary>
+
+If you're here, that probably means that the firmware installed when rooting was rather old.
+Dreame shuffled some stuff around between components of the boot chain, meaning that we can end up in a mismatch, where power to the WiFi module is never enabled.
+
+We thus now need to update stuff the normal rooting procedure doesn't touch.
+
+**Note:**<br/>
+Don't be an idiot here. This can brick your robot.<br/>
+It is also specific for the robot the FEL package was made for. Do not do this on any other bot.
+
+
+You've likely wondered why the FEL package you've downloaded for the initial rooting procedure contained a file named `.IGNOREME_toc0.bin`.
+
+As a first step, rename it (`mv .IGNOREME_toc0.bin toc0.bin`), as now is the time to stop ignoring it.
+Then, do the same fastboot instant reboot dance again, so that you can spawn the WiFi AP.
+
+Connect to the AP, then copy the file to the robot's `/tmp` dir - e.g. using `scp -O` or the [valetudo-helper-httpbridge](https://github.com/Hypfer/valetudo-helper-httpbridge).
+Quintuple-check that you're not doing something dumb, that checksums match, and that you're generally lucid and not half-assing any of this.
+
+Then, run `ota-burnboot0 /tmp/toc0.bin`.
+If nothing complained about anything, run `reboot`.
+
+This should permanently fix the root cause of the issue.
+</details>
 
 
 #### Details
